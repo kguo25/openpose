@@ -58,7 +58,8 @@ namespace op
                 for (auto& datum : *tDatums)
                     // THIS IS THE ONLY LINE THAT THE USER MUST MODIFY ON THIS HPP FILE, by using the proper function
                     // and datum elements
-                    spUserPostProcessing->doSomething(datum.cvOutputData, datum.cvOutputData);
+                    spUserPostProcessing->doSomething(datum.cvOutputData, datum.cvInputData);
+				
                 // Profiling speed
                 Profiler::timerEnd(profilerKey);
                 Profiler::printAveragedTimeMsOnIterationX(profilerKey, __LINE__, __FUNCTION__, __FILE__);
@@ -74,7 +75,7 @@ namespace op
         }
     }
 
-    // COMPILE_TEMPLATE_DATUM(WUserPostProcessing);
+    //COMPILE_TEMPLATE_DATUM(WUserPostProcessing);
 }
 
 #endif // OPENPOSE_EXAMPLES_TUTORIAL_W_USER_POST_PROCESSING_HPP

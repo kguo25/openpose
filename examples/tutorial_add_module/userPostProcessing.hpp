@@ -4,6 +4,8 @@
 #include <openpose/core/common.hpp>
 #include <openpose/core/cvMatToOpInput.hpp>
 
+using namespace cv;
+
 namespace op
 {
     /**
@@ -29,7 +31,7 @@ namespace op
          * @param input is the input cv::Mat.
          * @return If it is not void, add returning information here.
          */
-        void doSomething(cv::Mat& output, const cv::Mat& input);
+		void doSomething(cv::Mat& output, const cv::Mat& input);
 
     private:
         /**
@@ -72,8 +74,19 @@ namespace op
     {
         try
         {
+			cv::Mat imgHSV;
+			cvtColor(input, imgHSV, COLOR_BGR2HSV);
+			cv::Mat imgThresholded;
+			//change according to racket
+			inRange(imgHSV, Scalar(162, 147, 0), Scalar(179, 255, 255), imgThresholded);
+			erode(imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5,5)));
+			dilate(imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5,5)));
+
+			dilate(imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5,5)));
+			erode(imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5,5)));
+			
             // Random operation on data
-            cv::bitwise_not(input, output);
+            cv::bitwise_not(imgThresholded, output);
         }
         catch (const std::exception& e)
         {
